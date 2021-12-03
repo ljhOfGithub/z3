@@ -128,6 +128,7 @@ def append_log(s):
 
 def to_symbol(s, ctx=None):
     """Convert an integer or string into a Z3 symbol."""
+    #"""将整数或字符串转换为Z3符号。"＂＂
     if _is_int(s):
         return Z3_mk_int_symbol(_get_ctx(ctx).ref(), s)
     else:
@@ -145,7 +146,9 @@ def _symbol2py(ctx, s):
 # list of arguments.
 # Use this when function takes a single list of arguments
 
-
+# Hack有一个可以接收一个参数的nary函数
+#参数列表。
+#当函数接受单个参数列表时使用this
 def _get_args(args):
     try:
         if len(args) == 1 and (isinstance(args[0], tuple) or isinstance(args[0], list)):
@@ -1009,6 +1012,8 @@ class ExprRef(AstRef):
         >>> a is None
         False
         """
+        #返回一个Z3表达式，表示约束' self == other '。
+        #如果' other '为' None '，则该方法简单地返回' False '。
         if other is None:
             return False
         a, b = _coerce_exprs(self, other)
@@ -1040,7 +1045,7 @@ class ExprRef(AstRef):
         return self.decl().params()
 
     def decl(self):
-        """Return the Z3 function declaration associated with a Z3 application.
+        """Return the Z3 function declaration associated with a Z3 application.返回与Z3应用程序关联的Z3函数声明。
 
         >>> f = Function('f', IntSort(), IntSort())
         >>> a = Int('a')
@@ -1055,7 +1060,7 @@ class ExprRef(AstRef):
         return FuncDeclRef(Z3_get_app_decl(self.ctx_ref(), self.as_ast()), self.ctx)
 
     def num_args(self):
-        """Return the number of arguments of a Z3 application.
+        """Return the number of arguments of a Z3 application.返回Z3应用程序的参数个数。
 
         >>> a = Int('a')
         >>> b = Int('b')
@@ -1071,7 +1076,7 @@ class ExprRef(AstRef):
         return int(Z3_get_app_num_args(self.ctx_ref(), self.as_ast()))
 
     def arg(self, idx):
-        """Return argument `idx` of the application `self`.
+        """Return argument `idx` of the application `self`.返回Z3应用程序的参数个数。
 
         This method assumes that `self` is a function application with at least `idx+1` arguments.
 
@@ -1092,7 +1097,7 @@ class ExprRef(AstRef):
         return _to_expr_ref(Z3_get_app_arg(self.ctx_ref(), self.as_ast(), idx), self.ctx)
 
     def children(self):
-        """Return a list containing the children of the given expression
+        """Return a list containing the children of the given expression返回一个包含给定表达式的子元素的列表
 
         >>> a = Int('a')
         >>> b = Int('b')
@@ -1155,14 +1160,14 @@ def _to_expr_ref(a, ctx):
     return ExprRef(a, ctx)
 
 
-def _coerce_expr_merge(s, a):
+def _coerce_expr_merge(s, a):#数据类型统一
     if is_expr(a):
-        s1 = a.sort()
+        s1 = a.sort()#a.sort()：a的数据类型
         if s is None:
             return s1
-        if s1.eq(s):
+        if s1.eq(s):#s和a的数据类型相同
             return s
-        elif s.subsort(s1):
+        elif s.subsort(s1):#如果s是s1的subsort，如int是real的subsort，则返回s1
             return s1
         elif s1.subsort(s):
             return s
@@ -1174,9 +1179,9 @@ def _coerce_expr_merge(s, a):
         return s
 
 
-def _coerce_exprs(a, b, ctx=None):
+def _coerce_exprs(a, b, ctx=None):#统一计算类型，如int+float统一为float+float
     if not is_expr(a) and not is_expr(b):
-        a = _py2expr(a, ctx)
+        a = _py2expr(a, ctx)#使用ctx规定的上下文环境，将a，b转化为z3数据类型
         b = _py2expr(b, ctx)
     if isinstance(a, str) and isinstance(b, SeqRef):
         a = StringVal(a, b.ctx)
@@ -1185,7 +1190,7 @@ def _coerce_exprs(a, b, ctx=None):
     s = None
     s = _coerce_expr_merge(s, a)
     s = _coerce_expr_merge(s, b)
-    a = s.cast(a)
+    a = s.cast(a)#统一类型，然后赋值原来的值
     b = s.cast(b)
     return (a, b)
 
@@ -1484,7 +1489,7 @@ class BoolSortRef(SortRef):
 
     def cast(self, val):
         """Try to cast `val` as a Boolean.
-
+        布尔类型赋值
         >>> x = BoolSort().cast(True)
         >>> x
         True
@@ -1674,7 +1679,7 @@ def BoolSort(ctx=None):
 
 def BoolVal(val, ctx=None):
     """Return the Boolean value `True` or `False`. If `ctx=None`, then the global context is used.
-
+    返回布尔值“True”或“False”。如果' ctx=None '，则使用全局上下文。
     >>> BoolVal(True)
     True
     >>> is_true(BoolVal(True))
@@ -1961,7 +1966,7 @@ class QuantifierRef(BoolRef):
         return Z3_get_ast_id(self.ctx_ref(), self.as_ast())
 
     def sort(self):
-        """Return the Boolean sort or sort of Lambda."""
+        """Return the Boolean sort or sort of Lambda.返回Lambda的布尔排序或排序。"""
         if self.is_lambda():
             return _sort(self.ctx, self.as_ast())
         return BoolSort(self.ctx)
@@ -2284,7 +2289,7 @@ class ArithSortRef(SortRef):
         return self.kind() == Z3_INT_SORT
 
     def subsort(self, other):
-        """Return `True` if `self` is a subsort of `other`."""
+        """Return `True` if `self` is a subsort of `other`.如果self是other的子序列则返回True"""
         return self.is_int() and is_arith_sort(other) and other.is_real()
 
     def cast(self, val):
@@ -2342,11 +2347,11 @@ def is_arith_sort(s):
 
 
 class ArithRef(ExprRef):
-    """Integer and Real expressions."""
+    """Integer and Real expressions.整数和实数表达式"""
 
     def sort(self):
         """Return the sort (type) of the arithmetical expression `self`.
-
+        返回算术表达式' self '的排序(类型)
         >>> Int('x').sort()
         Int
         >>> (Real('x') + 1).sort()
@@ -2356,7 +2361,7 @@ class ArithRef(ExprRef):
 
     def is_int(self):
         """Return `True` if `self` is an integer expression.
-
+        如果' self '是一个整数表达式则返回' True '
         >>> x = Int('x')
         >>> x.is_int()
         True
@@ -2370,7 +2375,7 @@ class ArithRef(ExprRef):
 
     def is_real(self):
         """Return `True` if `self` is an real expression.
-
+        如果self是一个实数表达式则返回' True '
         >>> x = Real('x')
         >>> x.is_real()
         True
@@ -2381,7 +2386,7 @@ class ArithRef(ExprRef):
 
     def __add__(self, other):
         """Create the Z3 expression `self + other`.
-
+        创建Z3表达式“self+other”
         >>> x = Int('x')
         >>> y = Int('y')
         >>> x + y
@@ -3084,7 +3089,7 @@ class AlgebraicNumRef(ArithRef):
         return Z3_algebraic_get_i(self.ctx_ref(), self.as_ast())
 
 
-def _py2expr(a, ctx=None):
+def _py2expr(a, ctx=None):#将python数据类型转为z3数据类型，bool，int，float，string
     if isinstance(a, bool):
         return BoolVal(a, ctx)
     if _is_int(a):
