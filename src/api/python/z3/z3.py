@@ -400,7 +400,7 @@ class AstRef(Z3PPObject):
         return Z3_get_ast_id(self.ctx_ref(), self.as_ast())
 
     def ctx_ref(self):
-        """Return a reference to the C context where this AST node is stored."""
+        """Return a reference to the C context where this AST node is stored.返回一个对存储此AST节点的C上下文的引用。"""
         return self.ctx.ref()
 
     def eq(self, other):
@@ -1521,7 +1521,7 @@ class BoolSortRef(SortRef):
 
 
 class BoolRef(ExprRef):
-    """All Boolean expressions are instances of this class."""
+    """All Boolean expressions are instances of this class.所有布尔表达式都是这个类的实例，布尔表达式类的基类"""
 
     def sort(self):
         return BoolSortRef(Z3_get_sort(self.ctx_ref(), self.as_ast()), self.ctx)
@@ -4468,7 +4468,7 @@ def BVSNegNoOverflow(a):
 
 
 def BVMulNoOverflow(a, b, signed):
-    """A predicate the determines that bit-vector multiplication does not overflow"""
+    """A predicate the determines that bit-vector multiplication does not overflow谓词确定位向量乘法不会溢出"""
     _check_bv_args(a, b)
     a, b = _coerce_exprs(a, b)
     return BoolRef(Z3_mk_bvmul_no_overflow(a.ctx_ref(), a.as_ast(), b.as_ast(), signed), a.ctx)
