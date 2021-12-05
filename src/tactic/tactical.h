@@ -64,7 +64,7 @@ tactic * clean(tactic * t);
 tactic * using_params(tactic * t, params_ref const & p);
 tactic * annotate_tactic(char const* name, tactic * t);
 
-// Create a tactic that fails if the result returned by probe p is true.
+// Create a tactic that fails if the result returned by probe p is true.创建一个策略，如果探针p返回的结果为真则失败。
 tactic * fail_if(probe * p);
 tactic * fail_if_not(probe * p);
 // Execute t1 if p returns true, and t2 otherwise
