@@ -633,7 +633,7 @@ void tactic_example4() {
 
 void tactic_example5() {
     /*
-      The tactic smt wraps the main solver in Z3 as a tactic.
+      The tactic smt wraps the main solver in Z3 as a tactic.将z3的主求解器转换为一个tactic对象
     */
     std::cout << "tactic example 5\n";
     context c;
@@ -649,6 +649,8 @@ void tactic_example6() {
     /*
       In this example, we show how to implement a solver for integer arithmetic using SAT. 
       The solver is complete only for problems where every variable has a lower and upper bound.
+      在这个例子中，我们展示了如何使用SAT实现一个整数算术求解器。
+      这个解算器只适用于每个变量都有下界和上界的问题。
     */ 
     std::cout << "tactic example 6\n";
     context c;
