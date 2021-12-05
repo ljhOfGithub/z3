@@ -10,7 +10,9 @@ Abstract:
     Abstract tactic object.
     It used to be called assertion_set_strategy.
     The main improvement is the support for multiple subgoals.
-
+抽象的策略对象。
+它过去被称为assertion_set_strategy。
+主要改进是对多个子目标的支持。
 Author:
 
     Leonardo (leonardo) 2011-10-13
@@ -68,7 +70,7 @@ public:
     virtual void cleanup() = 0;
     virtual void reset() { cleanup(); }
 
-    // for backward compatibility
+    // for backward compatibility//向后兼容，新版本可以接受旧版本的数据
     virtual void set_logic(symbol const & l) {}
     virtual void set_progress_callback(progress_callback * callback) {}
 
