@@ -597,7 +597,7 @@ void tactic_example3() {
 
 void tactic_example4() {
     /*
-      A tactic can be converted into a solver object using the method mk_solver(). 
+      A tactic can be converted into a solver object using the method mk_solver(). 可以使用mk_solver()方法将策略转换为求解器对象。
       If the tactic produces the empty goal, then the associated solver returns sat. 
       If the tactic produces a single goal containing False, then the solver returns unsat. 
       Otherwise, it returns unknown.

@@ -5967,8 +5967,8 @@ extern "C" {
     Z3_string Z3_API Z3_goal_to_string(Z3_context c, Z3_goal g);
 
     /**
-       \brief Convert a goal into a DIMACS formatted string.
-       The goal must be in CNF. You can convert a goal to CNF
+       \brief Convert a goal into a DIMACS formatted string.cnf是合取范式
+       The goal must be in CNF. You can convert a goal to CNF目标必须是CNF。您可以将一个目标转换为CNF，通过应用tsetin -cnf策略。
        by applying the tseitin-cnf tactic. Bit-vectors are not automatically
        converted to Booleans either, so if the caller intends to
        preserve satisfiability, it should apply bit-blasting tactics.
