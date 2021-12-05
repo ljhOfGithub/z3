@@ -524,7 +524,8 @@ void tactic_example1() {
       In this example, we create a goal g consisting of three formulas, and a tactic t composed of two built-in tactics: 
       simplify and solve-eqs. The tactic simplify apply transformations equivalent to the ones found in the command simplify. 
       The tactic solver-eqs eliminate variables using Gaussian elimination. Actually, solve-eqs is not restricted 
-      only to linear arithmetic. It can also eliminate arbitrary variables. 
+      only to linear arithmetic. It can also eliminate arbitrary variables. 战术求解者-方程组使用高斯消去法来消去变量。实际上，求解方程是不受限制的
+      只有线性算术。它还可以消除任意变量。
       Then, sequential composition combinator & applies simplify to the input goal and solve-eqs to each subgoal produced by simplify. 
       In this example, only one subgoal is produced.
     */

@@ -773,6 +773,8 @@ public:
 };
 
 // Similar to and_then combinator, but t2 is applied in parallel to all subgoals produced by t1
+// 类似于and_then combinator，但t2是并行应用于t1产生的所有子目标
+//Z3实现了一种编排推理引擎的方法，其中“大的”符号推理步骤被表示为称为战术tactic的函数，而战术是使用称为战术的组合子组合而成的。战术tactic处理一系列称为目标的公式。
 tactic * par_and_then(tactic * t1, tactic * t2) {
     return alloc(par_and_then_tactical, t1, t2);
 }

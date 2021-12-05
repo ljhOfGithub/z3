@@ -5505,7 +5505,7 @@ class Goal(Z3PPObject):
 
     def depth(self):
         """Return the depth of the goal `self`.
-        The depth corresponds to the number of tactics applied to `self`.
+        The depth corresponds to the number of tactics applied to `self`.深度对应于应用于“自我”的tactics数量。
 
         >>> x, y = Ints('x y')
         >>> g = Goal()
@@ -5761,7 +5761,7 @@ class Goal(Z3PPObject):
         return t.apply(self, *arguments, **keywords)[0]
 
     def as_expr(self):
-        """Return goal `self` as a single Z3 expression.
+        """Return goal `self` as a single Z3 expression.返回目标' self '作为单个Z3表达式。
 
         >>> x = Int('x')
         >>> g = Goal()
@@ -8074,7 +8074,7 @@ class Tactic:
     """Tactics transform, solver and/or simplify sets of constraints (Goal).
     A Tactic can be converted into a Solver using the method solver().
 
-    Several combinators are available for creating new tactics using the built-in ones:
+    Several combinators are available for creating new tactics using the built-in ones:一些组合子可以用于创建新的战术使用内置的:
     Then(), OrElse(), FailIf(), Repeat(), When(), Cond().
     """
 
@@ -8118,6 +8118,7 @@ class Tactic:
 
     def apply(self, goal, *arguments, **keywords):
         """Apply tactic `self` to the given goal or Z3 Boolean expression using the given options.
+        将策略' self '应用于给定的目标或使用给定选项的Z3布尔表达式。
 
         >>> x, y = Ints('x y')
         >>> t = Tactic('solve-eqs')
@@ -8145,6 +8146,7 @@ class Tactic:
 
     def help(self):
         """Display a string containing a description of the available options for the `self` tactic."""
+        """显示一个字符串，其中包含对' self '策略可用选项的描述。"""
         print(Z3_tactic_get_help(self.ctx.ref(), self.tactic))
 
     def param_descrs(self):
@@ -8185,13 +8187,13 @@ def _or_else(t1, t2, ctx=None):
 
 
 def AndThen(*ts, **ks):
-    """Return a tactic that applies the tactics in `*ts` in sequence.
-
+    """Return a tactic that applies the tactics in `*ts` in sequence.返回一个顺序使用' *ts '的战术
+    
     >>> x, y = Ints('x y')
-    >>> t = AndThen(Tactic('simplify'), Tactic('solve-eqs'))
-    >>> t(And(x == 0, y > x + 1))
+    >>> t = AndThen(Tactic('simplify'), Tactic('solve-eqs'))#s顺序使用简化，solve-eqs策略
+    >>> t(And(x == 0, y > x + 1))#And表示同时成立的约束
     [[Not(y <= 1)]]
-    >>> t(And(x == 0, y > x + 1)).as_expr()
+    >>> t(And(x == 0, y > x + 1)).as_expr()#tatic对象转换为z3表达式
     Not(y <= 1)
     """
     if z3_debug():
@@ -8206,7 +8208,7 @@ def AndThen(*ts, **ks):
 
 def Then(*ts, **ks):
     """Return a tactic that applies the tactics in `*ts` in sequence. Shorthand for AndThen(*ts, **ks).
-
+    ""返回一个顺序使用' *ts '的战术。AndThen(*ts， **ks)的简写。
     >>> x, y = Ints('x y')
     >>> t = Then(Tactic('simplify'), Tactic('solve-eqs'))
     >>> t(And(x == 0, y > x + 1))
